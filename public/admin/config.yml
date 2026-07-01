@@ -1,8 +1,8 @@
 # Configuración del panel sin código (Sveltia CMS)
-# ⚠️ Cambia "repo" por tu-usuario-de-github/nombre-del-repo cuando lo subas.
+# Repo configurado: posadfuj/abc-tendencia
 backend:
   name: github
-  repo: TU-USUARIO/abc-tendencia
+  repo: posadfuj/abc-tendencia
   branch: main
 
 # Idioma del panel
