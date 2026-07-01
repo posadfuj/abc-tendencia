@@ -1,0 +1,67 @@
+# Panel de administración sin código — Pages CMS (https://pagescms.org)
+# Se entra desde https://app.pagescms.org (login con GitHub). No requiere instalar nada.
+
+media:
+  input: public/img/productos # dónde se guardan las fotos que subes
+  output: /img/productos # cómo se referencian en la web
+
+content:
+  - name: productos
+    label: Peluches y productos
+    type: collection
+    path: src/data/productos
+    filename: '{fields.nombre}.md'
+    view:
+      fields: [nombre, precio, categoria, stock, activo]
+      primary: nombre
+      sort: [orden, nombre, precio]
+    fields:
+      - name: nombre
+        label: Nombre del peluche
+        type: string
+      - name: imagen
+        label: Foto
+        type: image
+        required: false
+        description: Sube una foto cuadrada y con buena luz.
+      - name: precio
+        label: Precio de venta (S/)
+        type: number
+        options:
+          min: 0
+      - name: precioAntes
+        label: Precio antes (para mostrar oferta)
+        type: number
+        required: false
+        description: Déjalo vacío si no está en oferta.
+      - name: categoria
+        label: Categoría
+        type: select
+        default: Peluches
+        options:
+          values: [Peluches, Novedades]
+      - name: stock
+        label: Stock (cantidad)
+        type: number
+        default: 1
+        options:
+          min: 0
+          step: 1
+      - name: destacado
+        label: ¿Destacado / Viral? 🔥
+        type: boolean
+        default: false
+      - name: activo
+        label: ¿Mostrar en la web?
+        type: boolean
+        default: true
+      - name: orden
+        label: Orden (menor = aparece primero)
+        type: number
+        default: 0
+        options:
+          step: 1
+      - name: body
+        label: Descripción
+        type: rich-text
+        required: false
