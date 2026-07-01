@@ -20,10 +20,16 @@ content:
         label: Nombre del peluche
         type: string
       - name: imagen
-        label: Foto
+        label: Foto principal
         type: image
         required: false
         description: Sube una foto cuadrada y con buena luz.
+      - name: galeria
+        label: Más fotos (otros colores / vistas)
+        type: image
+        list: true
+        required: false
+        description: Agrega más fotos del mismo modelo (por ejemplo, otros colores). El cliente podrá verlas y elegir.
       - name: precio
         label: Precio de venta (S/)
         type: number
@@ -40,6 +46,26 @@ content:
         default: Peluches
         options:
           values: [Peluches, Novedades]
+      - name: tamano
+        label: Tamaño / Alto
+        type: string
+        required: false
+        description: 'Ej: 30 cm'
+      - name: material
+        label: Material
+        type: string
+        required: false
+        description: 'Ej: Felpa súper suave, peluche importado'
+      - name: color
+        label: Color(es)
+        type: string
+        required: false
+        description: 'Ej: Rosado, Beige'
+      - name: marca
+        label: Marca / Origen
+        type: string
+        required: false
+        description: 'Ej: Importado'
       - name: stock
         label: Stock (cantidad)
         type: number

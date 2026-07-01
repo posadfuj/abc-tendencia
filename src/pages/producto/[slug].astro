@@ -13,6 +13,13 @@ export async function getStaticPaths() {
 const { producto } = Astro.props;
 const { Content } = await render(producto);
 const d = producto.data;
+const imagenes = [d.imagen, ...(d.galeria ?? [])].filter(Boolean);
+const specs = [
+  { label: 'Tamaño', value: d.tamano },
+  { label: 'Material', value: d.material },
+  { label: 'Color', value: d.color },
+  { label: 'Marca', value: d.marca },
+].filter((s) => s.value);
 const desc = descuento(d.precio, d.precioAntes);
 const disponible = d.stock > 0;
 const dispTxt =
@@ -74,9 +81,22 @@ const jsonLdBread = {
       </nav>
 
       <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
-        <div class="relative rounded-3xl overflow-hidden shadow-xl bg-gray-100 aspect-square">
-          {desc && <span class="absolute top-4 right-4 z-10 text-sm font-bold px-4 py-1.5 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{desc}%</span>}
-          {d.imagen ? <img src={d.imagen} alt={d.nombre} class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center text-8xl">🧸</div>}
+        <div>
+          <div class="relative rounded-3xl overflow-hidden shadow-xl bg-gray-100 aspect-square">
+            {desc && <span class="absolute top-4 right-4 z-10 text-sm font-bold px-4 py-1.5 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{desc}%</span>}
+            {imagenes.length ? <img id="img-principal" src={imagenes[0]} alt={d.nombre} class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center text-8xl">🧸</div>}
+          </div>
+          {imagenes.length > 1 && (
+            <div class="mt-3 flex gap-2 flex-wrap">
+              {imagenes.map((src, i) => (
+                <button
+                  class:list={['thumb w-16 h-16 rounded-xl overflow-hidden border-2 transition', i === 0 ? 'border-[#7C5CFC]' : 'border-transparent hover:border-gray-300']}
+                  data-src={src} aria-label={`Ver foto ${i + 1}`}>
+                  <img src={src} alt={`${d.nombre} — foto ${i + 1}`} loading="lazy" class="w-full h-full object-cover" />
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
@@ -89,6 +109,17 @@ const jsonLdBread = {
           {disponible
             ? <p class="text-green-600 font-bold mb-5">{dispTxt}</p>
             : <p class="text-red-500 font-bold mb-5">Agotado por ahora</p>}
+
+          {specs.length > 0 && (
+            <ul class="mb-6 rounded-2xl bg-gray-50 border border-gray-100 divide-y divide-gray-100">
+              {specs.map((s) => (
+                <li class="flex gap-3 px-4 py-2.5 text-sm">
+                  <span class="font-semibold text-gray-500 w-24 shrink-0">{s.label}</span>
+                  <span class="text-gray-800">{s.value}</span>
+                </li>
+              ))}
+            </ul>
+          )}
 
           <div class="prose max-w-none text-gray-600 mb-7"><Content /></div>
 
@@ -132,4 +163,23 @@ const jsonLdBread = {
 
   <script type="application/ld+json" set:html={JSON.stringify(jsonLdProduct)} is:inline />
   <script type="application/ld+json" set:html={JSON.stringify(jsonLdBread)} is:inline />
+
+  <script is:inline>
+    (function () {
+      const principal = document.getElementById('img-principal');
+      const thumbs = document.querySelectorAll('.thumb');
+      if (!principal || !thumbs.length) return;
+      thumbs.forEach((t) => {
+        t.addEventListener('click', () => {
+          principal.src = t.getAttribute('data-src');
+          thumbs.forEach((x) => {
+            x.classList.remove('border-[#7C5CFC]');
+            x.classList.add('border-transparent');
+          });
+          t.classList.add('border-[#7C5CFC]');
+          t.classList.remove('border-transparent');
+        });
+      });
+    })();
+  </script>
 </Layout>
