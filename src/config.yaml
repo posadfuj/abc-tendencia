@@ -1,0 +1,72 @@
+site:
+  name: ABC Tendencia
+  site: 'https://abctendencia.netlify.app'
+  base: '/'
+  trailingSlash: false
+
+  googleSiteVerificationId: ''
+
+# Default SEO metadata
+metadata:
+  title:
+    default: 'ABC Tendencia — Peluches y novedades virales en Perú'
+    template: '%s — ABC Tendencia'
+  description: 'Tienda de peluches y productos virales en tendencia con envíos a todo el Perú. El regalo perfecto para sorprender. Pide fácil por WhatsApp.'
+  robots:
+    index: true
+    follow: true
+  openGraph:
+    site_name: ABC Tendencia
+    images:
+      - url: '~/assets/images/default.png'
+        width: 1200
+        height: 1200
+    type: website
+  twitter:
+    handle: '@abc.tendencia'
+    site: '@abc.tendencia'
+    cardType: summary_large_image
+
+i18n:
+  language: es
+  textDirection: ltr
+
+apps:
+  blog:
+    isEnabled: false
+    postsPerPage: 6
+
+    post:
+      isEnabled: true
+      permalink: '/%slug%' # Variables: %slug%, %year%, %month%, %day%, %hour%, %minute%, %second%, %category%
+      robots:
+        index: true
+
+    list:
+      isEnabled: true
+      pathname: 'blog' # Blog main path, you can change this to "articles" (/articles)
+      robots:
+        index: true
+
+    category:
+      isEnabled: true
+      pathname: 'category' # Category main path /category/some-category, you can change this to "group" (/group/some-category)
+      robots:
+        index: true
+
+    tag:
+      isEnabled: true
+      pathname: 'tag' # Tag main path /tag/some-tag, you can change this to "topics" (/topics/some-category)
+      robots:
+        index: false
+
+    isRelatedPostsEnabled: true
+    relatedPostsCount: 4
+
+analytics:
+  vendors:
+    googleAnalytics:
+      id: null # or "G-XXXXXXXXXX"
+
+ui:
+  theme: 'light:only' # Values: "system" | "light" | "dark" | "light:only" | "dark:only"

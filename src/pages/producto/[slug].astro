@@ -1,0 +1,135 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Carrito from '~/components/Carrito.astro';
+import { getCollection, render } from 'astro:content';
+import { waLink, descuento } from '~/data/tienda';
+import { SITE } from 'astrowind:config';
+
+export async function getStaticPaths() {
+  const productos = await getCollection('productos', (p) => p.data.activo);
+  return productos.map((p) => ({ params: { slug: p.id }, props: { producto: p } }));
+}
+
+const { producto } = Astro.props;
+const { Content } = await render(producto);
+const d = producto.data;
+const desc = descuento(d.precio, d.precioAntes);
+const disponible = d.stock > 0;
+const dispTxt =
+  d.stock <= 3
+    ? `✓ Disponible · ¡Solo quedan ${d.stock}! · 🚚 Envíos a todo el Perú`
+    : '✓ Disponible · 🚚 Envíos a todo el Perú';
+const msg = `Hola ABC Tendencia 🐼, quiero pedir "${d.nombre}" (S/ ${d.precio}). ¿Está disponible?`;
+const url = new URL(Astro.url.pathname, Astro.site).href;
+
+const relacionados = (await getCollection('productos', (p) => p.data.activo && p.id !== producto.id))
+  .sort((a, b) => (a.data.categoria === d.categoria ? -1 : 1) - (b.data.categoria === d.categoria ? -1 : 1))
+  .slice(0, 4);
+
+const metadata = {
+  title: `${d.nombre} — ${d.categoria} en Perú`,
+  description: `${d.nombre} a S/ ${d.precio}. Peluche ${d.destacado ? 'viral ' : ''}en tendencia con envíos a todo el Perú. Pide fácil por WhatsApp.`,
+  ignoreTitleTemplate: false,
+  openGraph: { images: d.imagen ? [{ url: d.imagen }] : [] },
+};
+
+const jsonLdProduct = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: d.nombre,
+  image: d.imagen ? [d.imagen] : [],
+  description: `${d.nombre} — ${SITE.name}. Peluche en tendencia con envíos a todo el Perú.`,
+  category: d.categoria,
+  brand: { '@type': 'Brand', name: SITE.name },
+  offers: {
+    '@type': 'Offer',
+    price: d.precio,
+    priceCurrency: 'PEN',
+    availability: disponible ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+    url,
+    seller: { '@type': 'Organization', name: SITE.name },
+    areaServed: { '@type': 'Country', name: 'Perú' },
+  },
+};
+const jsonLdBread = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: new URL('/', Astro.site).href },
+    { '@type': 'ListItem', position: 2, name: d.categoria, item: new URL('/#catalogo', Astro.site).href },
+    { '@type': 'ListItem', position: 3, name: d.nombre, item: url },
+  ],
+};
+---
+
+<Layout metadata={metadata}>
+  <section class="px-4 py-8 sm:py-12">
+    <div class="max-w-6xl mx-auto">
+      <nav class="text-sm text-gray-500 mb-6">
+        <a href="/" class="hover:text-[#7C5CFC]">Inicio</a>
+        <span class="mx-2">›</span>
+        <a href="/#catalogo" class="hover:text-[#7C5CFC]">{d.categoria}</a>
+        <span class="mx-2">›</span>
+        <span class="text-gray-800">{d.nombre}</span>
+      </nav>
+
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12 items-start">
+        <div class="relative rounded-3xl overflow-hidden shadow-xl bg-gray-100 aspect-square">
+          {desc && <span class="absolute top-4 right-4 z-10 text-sm font-bold px-4 py-1.5 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{desc}%</span>}
+          {d.imagen ? <img src={d.imagen} alt={d.nombre} class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center text-8xl">🧸</div>}
+        </div>
+
+        <div>
+          <span class="inline-block text-xs font-bold uppercase tracking-wide text-accent mb-2">{d.categoria}{d.destacado ? ' · 🔥 Viral' : ''}</span>
+          <h1 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">{d.nombre}</h1>
+          <div class="flex items-baseline gap-3 mb-4">
+            <span class="text-4xl font-extrabold" style="color:#7C5CFC">S/ {d.precio}</span>
+            {d.precioAntes && <span class="text-xl text-gray-400 line-through">S/ {d.precioAntes}</span>}
+          </div>
+          {disponible
+            ? <p class="text-green-600 font-bold mb-5">{dispTxt}</p>
+            : <p class="text-red-500 font-bold mb-5">Agotado por ahora</p>}
+
+          <div class="prose max-w-none text-gray-600 mb-7"><Content /></div>
+
+          <div class="flex flex-wrap gap-3">
+            {disponible && (
+              <button class="add-cart inline-flex items-center gap-2 bg-[#7C5CFC] hover:brightness-110 text-white font-bold text-lg px-7 py-4 rounded-full shadow-lg transition"
+                data-id={producto.id} data-nombre={d.nombre} data-precio={d.precio} data-img={d.imagen}>🛒 Agregar al carrito</button>
+            )}
+            <a href={waLink(msg)} target="_blank" rel="noopener"
+              class="inline-flex items-center gap-2 bg-[#25D366] hover:brightness-105 text-white font-bold text-lg px-7 py-4 rounded-full shadow-lg transition">
+              💬 Pedir directo
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {relacionados.length > 0 && (
+    <section class="px-4 pb-14">
+      <div class="max-w-6xl mx-auto">
+        <h2 class="text-2xl font-bold tracking-tight mb-6">También te puede gustar 💜</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+          {relacionados.map((r) => (
+            <a href={`/producto/${r.id}`} class="bg-white rounded-2xl shadow-lg overflow-hidden block hover:-translate-y-1 transition">
+              <div class="aspect-square bg-gray-100 overflow-hidden">
+                {r.data.imagen ? <img src={r.data.imagen} alt={r.data.nombre} loading="lazy" class="w-full h-full object-cover" /> : <div class="w-full h-full flex items-center justify-center text-5xl">🧸</div>}
+              </div>
+              <div class="p-3">
+                <p class="font-bold text-sm text-gray-800 leading-tight truncate">{r.data.nombre}</p>
+                <p class="font-extrabold" style="color:#7C5CFC">S/ {r.data.precio}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <Carrito />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdProduct)} is:inline />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdBread)} is:inline />
+</Layout>

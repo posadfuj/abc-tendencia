@@ -1,0 +1,106 @@
+---
+import { WHATSAPP, waLink } from '~/data/tienda';
+---
+
+<!-- Botón carrito flotante -->
+<button id="cart-btn" aria-label="Ver carrito"
+  class="fixed bottom-24 right-6 z-50 rounded-full bg-[#7C5CFC] text-white flex items-center justify-center shadow-2xl hover:scale-110 transition"
+  style="width:60px;height:60px">
+  <span style="font-size:26px">🛒</span>
+  <span id="cart-badge" class="hidden absolute -top-1 -right-1 bg-[#FF4D8D] text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">0</span>
+</button>
+
+<!-- WhatsApp flotante -->
+<a href={waLink('Hola ABC Tendencia 🐼, quiero hacer un pedido')} target="_blank" rel="noopener" aria-label="WhatsApp"
+  class="fixed bottom-6 right-6 z-50 rounded-full bg-[#25D366] text-white text-3xl flex items-center justify-center shadow-2xl hover:scale-110 transition"
+  style="width:60px;height:60px">💬</a>
+
+<!-- Panel del carrito -->
+<div id="cart-overlay" class="hidden fixed inset-0 bg-black/40 z-[60]"></div>
+<aside id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-sm bg-white z-[70] shadow-2xl translate-x-full transition-transform duration-300 flex flex-col">
+  <div class="flex items-center justify-between p-5 border-b">
+    <h3 class="text-xl font-bold">🛒 Tu carrito</h3>
+    <button id="cart-close" class="text-2xl text-gray-400 hover:text-gray-700" aria-label="Cerrar">✕</button>
+  </div>
+  <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
+  <div class="p-5 border-t">
+    <div class="flex justify-between items-center mb-4">
+      <span class="text-gray-600">Total:</span>
+      <span id="cart-total" class="text-2xl font-extrabold" style="color:#7C5CFC">S/ 0</span>
+    </div>
+    <button id="cart-checkout" class="w-full bg-[#25D366] hover:brightness-105 text-white font-bold py-3.5 rounded-full transition">💬 Enviar pedido por WhatsApp</button>
+  </div>
+</aside>
+
+<script is:inline define:vars={{ WA: WHATSAPP }}>
+  (function () {
+    const money = (n) => 'S/ ' + Math.round(n * 100) / 100;
+    let cart = JSON.parse(localStorage.getItem('abc_cart') || '[]');
+    const badge = document.getElementById('cart-badge');
+    const panel = document.getElementById('cart-panel');
+    const overlay = document.getElementById('cart-overlay');
+    const cont = document.getElementById('cart-items');
+    const totalEl = document.getElementById('cart-total');
+
+    const guardar = () => localStorage.setItem('abc_cart', JSON.stringify(cart));
+    const abrir = () => { panel.classList.remove('translate-x-full'); overlay.classList.remove('hidden'); };
+    const cerrar = () => { panel.classList.add('translate-x-full'); overlay.classList.add('hidden'); };
+
+    function render() {
+      const n = cart.reduce((s, i) => s + i.qty, 0);
+      badge.textContent = n;
+      badge.classList.toggle('hidden', n === 0);
+      totalEl.textContent = money(cart.reduce((s, i) => s + i.precio * i.qty, 0));
+      cont.innerHTML = !cart.length
+        ? '<p class="text-center text-gray-400 py-10">Tu carrito está vacío 🧸<br>Agrega tus peluches favoritos.</p>'
+        : cart.map((i, idx) => `
+          <div class="flex gap-3 items-center">
+            <img src="${i.img}" alt="" class="w-16 h-16 rounded-xl object-cover bg-gray-100" />
+            <div class="flex-1 min-w-0">
+              <p class="font-bold text-sm text-gray-800 truncate">${i.nombre}</p>
+              <p class="text-sm font-extrabold" style="color:#7C5CFC">${money(i.precio)}</p>
+              <div class="flex items-center gap-2 mt-1">
+                <button data-menos="${idx}" class="w-7 h-7 rounded-full bg-gray-100 font-bold">−</button>
+                <span class="w-6 text-center font-bold">${i.qty}</span>
+                <button data-mas="${idx}" class="w-7 h-7 rounded-full bg-gray-100 font-bold">+</button>
+                <button data-quitar="${idx}" class="ml-auto text-red-400 text-sm">🗑️</button>
+              </div>
+            </div>
+          </div>`).join('');
+    }
+
+    document.querySelectorAll('.add-cart').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const id = btn.getAttribute('data-id');
+        const ex = cart.find((i) => i.id === id);
+        if (ex) ex.qty++;
+        else cart.push({ id, nombre: btn.getAttribute('data-nombre'), precio: parseFloat(btn.getAttribute('data-precio')), img: btn.getAttribute('data-img'), qty: 1 });
+        guardar(); render(); abrir();
+      });
+    });
+
+    cont.addEventListener('click', (e) => {
+      const t = e.target;
+      if (t.dataset.mas !== undefined) cart[t.dataset.mas].qty++;
+      else if (t.dataset.menos !== undefined) { const i = cart[t.dataset.menos]; i.qty--; if (i.qty <= 0) cart.splice(t.dataset.menos, 1); }
+      else if (t.dataset.quitar !== undefined) cart.splice(t.dataset.quitar, 1);
+      else return;
+      guardar(); render();
+    });
+
+    document.getElementById('cart-btn').addEventListener('click', abrir);
+    document.getElementById('cart-close').addEventListener('click', cerrar);
+    overlay.addEventListener('click', cerrar);
+
+    document.getElementById('cart-checkout').addEventListener('click', () => {
+      if (!cart.length) { alert('Tu carrito está vacío 🧸'); return; }
+      let msg = '¡Hola ABC Tendencia! 🐼 Quiero pedir:%0A%0A';
+      let total = 0;
+      cart.forEach((i) => { msg += `• ${i.qty}x ${i.nombre} — ${money(i.precio * i.qty)}%0A`; total += i.precio * i.qty; });
+      msg += `%0A*Total: ${money(total)}*%0A%0A¿Me confirmas disponibilidad y envío? 🚚`;
+      window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+    });
+
+    render();
+  })();
+</script>

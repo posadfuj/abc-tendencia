@@ -1,0 +1,233 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import Carrito from '~/components/Carrito.astro';
+import { getCollection } from 'astro:content';
+import { waLink, descuento } from '~/data/tienda';
+
+const metadata = {
+  title: 'ABC Tendencia — Peluches y novedades virales · Envíos a todo el Perú',
+  ignoreTitleTemplate: true,
+};
+
+const productos = (await getCollection('productos', (p) => p.data.activo)).sort(
+  (a, b) => (a.data.orden ?? 0) - (b.data.orden ?? 0)
+);
+const categorias = ['Todos', 'Peluches', 'Novedades'];
+
+const pasos = [
+  { n: '1', t: 'Elige tus peluches', d: 'Explora el catálogo y busca lo que más te guste.', e: '🧸' },
+  { n: '2', t: 'Agrégalos al carrito', d: 'Suma todo lo que quieras pedir en un solo lugar.', e: '🛒' },
+  { n: '3', t: 'Envía tu pedido', d: 'Toca "Enviar por WhatsApp" y coordinamos pago y envío.', e: '💬' },
+];
+const pagos = ['💜 Yape', '💙 Plin', '🏦 Transferencia', '📦 Contra entrega', '🚚 Olva Courier', '🚚 Shalom'];
+
+const faqs = [
+  { q: '¿Hacen envíos a todo el Perú?', a: 'Sí, enviamos a todo el país por agencia (Olva, Shalom y otras). En Abancay también hacemos delivery.' },
+  { q: '¿Cómo hago mi pedido?', a: 'Muy fácil: agrega tus peluches al carrito y toca "Enviar pedido por WhatsApp". Te atendemos al instante.' },
+  { q: '¿Qué formas de pago aceptan?', a: 'Aceptamos Yape, Plin, transferencia bancaria y, según la zona, pago contra entrega.' },
+  { q: '¿Los peluches son de buena calidad?', a: '¡Claro! Seleccionamos peluches suaves y de buena calidad para que tu regalo sea perfecto.' },
+  { q: '¿Puedo pedir un peluche que vi en TikTok?', a: 'Sí, traemos lo más viral. Escríbenos por WhatsApp con la referencia y te ayudamos a conseguirlo.' },
+];
+
+const site = Astro.site?.href ?? 'https://abctendencia.netlify.app/';
+const jsonLdStore = {
+  '@context': 'https://schema.org', '@type': 'Store', name: 'ABC Tendencia',
+  description: 'Tienda de peluches y productos virales en tendencia con envíos a todo el Perú.',
+  image: new URL('/logo.png', site).href, url: site, telephone: '+51991505772',
+  areaServed: { '@type': 'Country', name: 'Perú' },
+  sameAs: ['https://www.instagram.com/abc.tendencia', 'https://www.facebook.com/share/1cAL7LMnkk/', 'https://www.tiktok.com/@abc.tendencia'],
+};
+const jsonLdFaq = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+};
+---
+
+<Layout metadata={metadata}>
+  <Hero
+    actions={[
+      { variant: 'primary', text: '🛒 Ver catálogo', href: '#catalogo' },
+      { text: '💬 WhatsApp', href: waLink('Hola ABC Tendencia 🐼, quiero hacer una consulta'), target: '_blank' },
+    ]}
+    image={{ src: 'https://images.unsplash.com/photo-1687708522434-6197bb47c933?w=1000&q=80&auto=format&fit=crop', alt: 'Peluches virales ABC Tendencia' }}
+  >
+    <Fragment slot="title">
+      Peluches y lo más viral, <span class="text-accent">a tu manera</span> 🐼
+    </Fragment>
+    <Fragment slot="subtitle">
+      Traemos lo que ves en TikTok directo para ti. El regalo perfecto para sorprender, con
+      <span class="font-semibold">envíos a todo el Perú</span> 🇵🇪
+    </Fragment>
+  </Hero>
+
+  <section class="bg-primary text-white">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium">
+      <span>🚚 Envíos a todo el Perú</span>
+      <span>🔥 Lo más viral</span>
+      <span>🛒 Arma tu carrito fácil</span>
+      <span>💯 Calidad garantizada</span>
+    </div>
+  </section>
+
+  <section id="catalogo" class="px-4 py-12 sm:py-16">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-7">
+        <p class="text-base text-accent font-bold tracking-wide uppercase">🔥 Catálogo</p>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight mt-1">Nuestros peluches y novedades</h2>
+      </div>
+
+      <div class="max-w-md mx-auto mb-6">
+        <input id="buscar" type="search" placeholder="🔍 Busca tu peluche..."
+          class="w-full rounded-full border-2 border-gray-200 px-5 py-3 focus:border-[#7C5CFC] focus:outline-none transition" />
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-3 mb-9">
+        {categorias.map((c, i) => (
+          <button
+            class:list={['chip px-5 py-2 rounded-full font-semibold border-2 transition', i === 0 ? 'chip-activo' : 'bg-white border-gray-200 text-gray-700']}
+            data-cat={c}
+          >{c}</button>
+        ))}
+      </div>
+
+      <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+        {productos.map((p) => {
+          const d = descuento(p.data.precio, p.data.precioAntes);
+          return (
+            <article class="prod bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col transition hover:-translate-y-1.5 hover:shadow-2xl"
+              data-cat={p.data.categoria} data-nombre={p.data.nombre.toLowerCase()}>
+              <div class="relative aspect-square overflow-hidden bg-gray-100">
+                {p.data.destacado && <span class="absolute top-3 left-3 z-10 text-white text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FF4D8D,#FF6B57)">🔥 Viral</span>}
+                {d && <span class="absolute top-3 right-3 z-10 text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{d}%</span>}
+                <a href={`/producto/${p.id}`}>
+                  <img src={p.data.imagen} alt={p.data.nombre} loading="lazy" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
+                </a>
+              </div>
+              <div class="p-4 flex flex-col gap-2 flex-1">
+                <a href={`/producto/${p.id}`} class="font-bold text-gray-800 leading-tight hover:text-[#7C5CFC]">{p.data.nombre}</a>
+                <div class="flex items-baseline gap-2">
+                  <span class="text-xl font-extrabold" style="color:#7C5CFC">S/ {p.data.precio}</span>
+                  {p.data.precioAntes && <span class="text-sm text-gray-400 line-through">S/ {p.data.precioAntes}</span>}
+                </div>
+                {p.data.stock > 0 && p.data.stock <= 3 && <span class="text-xs font-bold text-red-500">⚡ ¡Solo quedan {p.data.stock}!</span>}
+                <button class="add-cart mt-auto bg-[#7C5CFC] hover:brightness-110 text-white font-bold py-2.5 rounded-full transition"
+                  data-id={p.id} data-nombre={p.data.nombre} data-precio={p.data.precio} data-img={p.data.imagen}>🛒 Agregar</button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+      <p id="sin-resultados" class="hidden text-center text-gray-500 py-10">No encontramos peluches con ese nombre 🧸</p>
+    </div>
+  </section>
+
+  <!-- Cómo comprar -->
+  <section id="como-comprar" class="px-4 py-14 bg-white">
+    <div class="max-w-5xl mx-auto text-center">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">¿Cómo comprar? Súper fácil 🛍️</h2>
+      <p class="text-gray-500 mb-10">En 3 pasos tu pedido está en camino</p>
+      <div class="grid sm:grid-cols-3 gap-6">
+        {pasos.map((p) => (
+          <div class="bg-gray-50 rounded-3xl p-7 relative">
+            <div class="w-12 h-12 mx-auto rounded-full text-white font-extrabold text-lg flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#38B6E0,#7C5CFC)">{p.n}</div>
+            <div class="text-4xl mb-2">{p.e}</div>
+            <h3 class="font-bold text-lg text-gray-800 mb-1">{p.t}</h3>
+            <p class="text-gray-500 text-sm">{p.d}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Medios de pago y envío -->
+  <section class="px-4 py-8 bg-gray-50 border-y border-gray-100">
+    <div class="max-w-4xl mx-auto text-center">
+      <p class="text-gray-500 font-semibold mb-4 uppercase text-sm tracking-wide">Pagos y envíos</p>
+      <div class="flex flex-wrap justify-center gap-3">
+        {pagos.map((m) => (
+          <span class="bg-white border border-gray-200 rounded-full px-4 py-2 text-sm font-semibold text-gray-700 shadow-sm">{m}</span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="px-4 py-12 bg-white">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="text-3xl font-bold tracking-tight text-center mb-8">Preguntas frecuentes ❓</h2>
+      <div class="space-y-4">
+        {faqs.map((f) => (
+          <details class="bg-gray-50 rounded-2xl shadow-sm p-5 group">
+            <summary class="font-bold text-gray-800 cursor-pointer list-none flex justify-between items-center">
+              {f.q}<span class="text-[#7C5CFC] group-open:rotate-45 transition">+</span>
+            </summary>
+            <p class="text-gray-600 mt-3">{f.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" class="px-4 py-14" style="background:linear-gradient(135deg,#E3F4FC,#EDE7FF 55%,#FFE8F1)">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-3xl font-bold tracking-tight mb-3">¿Listo para sorprender? 🎁</h2>
+      <p class="text-lg text-gray-600 mb-7">Arma tu carrito o escríbenos por WhatsApp. Envíos a todo el Perú 🇵🇪</p>
+      <a href={waLink('Hola ABC Tendencia 🐼, quiero hacer un pedido')} target="_blank" rel="noopener"
+        class="inline-flex items-center gap-2 bg-[#25D366] hover:brightness-105 text-white font-bold text-lg px-8 py-4 rounded-full shadow-lg transition">
+        💬 Escríbenos por WhatsApp
+      </a>
+    </div>
+  </section>
+
+  <Carrito />
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdStore)} is:inline />
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLdFaq)} is:inline />
+</Layout>
+
+<style>
+  .chip-activo{background:linear-gradient(135deg,#38B6E0,#7C5CFC);color:#fff;border-color:transparent;}
+</style>
+
+<script is:inline>
+  const chips = document.querySelectorAll('.chip');
+  const prods = Array.from(document.querySelectorAll('.prod'));
+  const buscar = document.getElementById('buscar');
+  const sinRes = document.getElementById('sin-resultados');
+  let catActiva = 'Todos';
+
+  function aplicar() {
+    const q = (buscar.value || '').trim().toLowerCase();
+    let visibles = 0;
+    prods.forEach((p) => {
+      const okCat = catActiva === 'Todos' || p.getAttribute('data-cat') === catActiva;
+      const okQ = !q || (p.getAttribute('data-nombre') || '').includes(q);
+      const show = okCat && okQ;
+      p.style.display = show ? '' : 'none';
+      if (show) visibles++;
+    });
+    sinRes.classList.toggle('hidden', visibles > 0);
+  }
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      chips.forEach((c) => { c.classList.remove('chip-activo'); c.classList.add('bg-white', 'border-gray-200', 'text-gray-700'); });
+      chip.classList.add('chip-activo'); chip.classList.remove('bg-white', 'border-gray-200', 'text-gray-700');
+      catActiva = chip.getAttribute('data-cat');
+      aplicar();
+    });
+  });
+  buscar.addEventListener('input', aplicar);
+
+  function desdeHash() {
+    const h = decodeURIComponent(location.hash.replace('#', '')).toLowerCase();
+    const map = { peluches: 'Peluches', novedades: 'Novedades', catalogo: 'Todos' };
+    if (map[h]) {
+      const chip = Array.from(chips).find((c) => c.getAttribute('data-cat') === map[h]);
+      if (chip) chip.click();
+      document.getElementById('catalogo').scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+  window.addEventListener('hashchange', desdeHash);
+  desdeHash();
+</script>
