@@ -1,6 +1,5 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import Hero from '~/components/widgets/Hero.astro';
 import Carrito from '~/components/Carrito.astro';
 import { getCollection } from 'astro:content';
 import { waLink, descuento } from '~/data/tienda';
@@ -45,28 +44,50 @@ const jsonLdFaq = {
 ---
 
 <Layout metadata={metadata}>
-  <Hero
-    actions={[
-      { variant: 'primary', text: '🛒 Ver catálogo', href: '#catalogo' },
-      { text: '💬 WhatsApp', href: waLink('Hola ABC Tendencia 🐼, quiero hacer una consulta'), target: '_blank' },
-    ]}
-    image={{ src: 'https://images.unsplash.com/photo-1687708522434-6197bb47c933?w=1000&q=80&auto=format&fit=crop', alt: 'Peluches virales ABC Tendencia' }}
-  >
-    <Fragment slot="title">
-      Peluches y lo más viral, <span class="text-accent">a tu manera</span> 🐼
-    </Fragment>
-    <Fragment slot="subtitle">
-      Traemos lo que ves en TikTok directo para ti. El regalo perfecto para sorprender, con
-      <span class="font-semibold">envíos a todo el Perú</span> 🇵🇪
-    </Fragment>
-  </Hero>
-
-  <section class="bg-primary text-white">
-    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium">
-      <span>🚚 Envíos a todo el Perú</span>
-      <span>🔥 Lo más viral</span>
-      <span>🛒 Arma tu carrito fácil</span>
-      <span>💯 Calidad garantizada</span>
+  <!-- HERO -->
+  <section class="relative overflow-hidden text-white" style="background:linear-gradient(135deg,#38B6E0 0%,#6E56F0 55%,#7C5CFC 100%)">
+    <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+    <div class="pointer-events-none absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+    <div class="relative max-w-7xl mx-auto px-4 py-14 md:py-20 grid md:grid-cols-2 gap-10 md:gap-8 items-center">
+      <div class="text-center md:text-left">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold ring-1 ring-white/25 backdrop-blur">
+          🔥 Lo más viral del Perú
+        </span>
+        <h1 class="mt-5 text-4xl sm:text-5xl md:text-6xl font-extrabold leading-[1.05] tracking-tight">
+          Peluches y novedades <span class="text-[#FFD84D]">que enamoran</span>
+        </h1>
+        <p class="mt-5 text-lg md:text-xl text-white/90 max-w-lg mx-auto md:mx-0">
+          Traemos lo que ves en TikTok directo a tu puerta. El regalo perfecto para sorprender, con envíos a todo el Perú.
+        </p>
+        <div class="mt-8 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+          <a href="#catalogo"
+            class="inline-flex items-center justify-center rounded-full bg-white text-[#7C5CFC] font-bold px-7 py-3.5 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition">
+            Ver catálogo
+          </a>
+          <a href={waLink('Hola ABC Tendencia, quiero hacer una consulta')} target="_blank" rel="noopener"
+            class="inline-flex items-center justify-center rounded-full bg-[#25D366] text-white font-bold px-7 py-3.5 shadow-lg hover:brightness-105 hover:-translate-y-0.5 transition">
+            Pedir por WhatsApp
+          </a>
+        </div>
+        <div class="mt-7 flex flex-wrap gap-x-6 gap-y-2 justify-center md:justify-start text-sm text-white/85 font-medium">
+          <span>✓ Envíos a todo el Perú</span>
+          <span>✓ Pago contra entrega</span>
+          <span>✓ Calidad garantizada</span>
+        </div>
+      </div>
+      <div class="relative mx-auto w-full max-w-md">
+        <div class="relative overflow-hidden rounded-[2rem] shadow-2xl ring-4 ring-white/20 aspect-[4/5] sm:aspect-[4/3] md:aspect-[4/5]">
+          <img src="https://images.unsplash.com/photo-1687708522434-6197bb47c933?w=900&q=80&auto=format&fit=crop"
+            alt="Peluches virales ABC Tendencia" class="w-full h-full object-cover" loading="eager" />
+        </div>
+        <div class="hidden sm:flex absolute -bottom-4 -left-4 items-center gap-2 rounded-2xl bg-white text-gray-800 px-4 py-3 shadow-xl">
+          <span class="text-2xl">🚚</span>
+          <div class="text-left leading-tight">
+            <p class="text-sm font-bold">Envío rápido</p>
+            <p class="text-xs text-gray-500">a todo el país</p>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 

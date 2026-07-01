@@ -7,11 +7,11 @@ export const headerData = {
   links: [
     { text: 'Inicio', href: getPermalink('/') },
     { text: 'Catálogo', href: getPermalink('/#catalogo') },
-    { text: '🧸 Peluches', href: getPermalink('/#peluches') },
-    { text: '✨ Novedades', href: getPermalink('/#novedades') },
+    { text: 'Peluches', href: getPermalink('/#peluches') },
+    { text: 'Novedades', href: getPermalink('/#novedades') },
     { text: 'Contacto', href: getPermalink('/#contacto') },
   ],
-  actions: [{ text: '💬 WhatsApp', href: waLink('Hola ABC Tendencia 🐼, quiero hacer un pedido'), target: '_blank' }],
+  actions: [{ text: 'Pedir por WhatsApp', href: waLink('Hola ABC Tendencia, quiero hacer un pedido'), target: '_blank' }],
 };
 
 export const footerData = {
