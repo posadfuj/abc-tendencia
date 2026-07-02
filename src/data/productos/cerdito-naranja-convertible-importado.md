@@ -1,5 +1,5 @@
 ---
-nombre: Cerdito Naranja Convertible Importado
+nombre: Peluche Cerdito Naranja Convertible Importado
 imagen: /img/productos/chancho fruta 20cm.jpg
 precio: 22
 precioAntes: 27
@@ -8,8 +8,8 @@ tamano: 22 cm
 material: hipoalergenico
 color: naranja
 marca: importado
-stock: 1
-destacado: false
+stock: 5
+destacado: true
 activo: true
 orden: 0
 ---
