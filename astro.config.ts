@@ -26,6 +26,9 @@ const whenExternalScripts = (items: (() => AstroIntegration) | (() => AstroInteg
 export default defineConfig({
   output: 'static',
 
+  // Oculta la barra de desarrollo de Astro (no debe verse nunca)
+  devToolbar: { enabled: false },
+
   integrations: [
     sitemap(),
     mdx(),

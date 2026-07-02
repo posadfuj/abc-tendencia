@@ -1,5 +1,5 @@
 ---
-nombre: Peluche Cordero Con Tulipan Importado
+nombre: Peluche Cordero con Tulipán Importado
 imagen: /img/productos/cordero tulipan 23cm.jpg
 precio: 25
 precioAntes: 28

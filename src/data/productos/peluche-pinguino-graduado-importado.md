@@ -1,5 +1,5 @@
 ---
-nombre: Peluche Pinguino Graduado Importado
+nombre: Peluche Pingüino Graduado Importado
 imagen: /img/productos/pinguino graduado plomo 22cm.jpg
 galeria:
   - /img/productos/pinguino graduado negro 22cm.jpg

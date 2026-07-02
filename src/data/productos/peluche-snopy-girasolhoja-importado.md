@@ -1,5 +1,5 @@
 ---
-nombre: Peluche Snopy girasol/hoja Importado
+nombre: Peluche Snoopy Girasol/Hoja Importado
 imagen: /img/productos/snopy girasol 23cm.jpg
 galeria:
   - /img/productos/snopy hoja 23cm.jpg

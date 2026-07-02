@@ -1,5 +1,5 @@
 ---
-nombre: Peluche Kirb Lotso Importado
+nombre: Peluche Kirby Lotso Importado
 imagen: /img/productos/kirby 20 cm.jpg
 precio: 22
 precioAntes: 30

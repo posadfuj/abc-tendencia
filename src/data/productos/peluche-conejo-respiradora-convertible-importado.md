@@ -1,5 +1,5 @@
 ---
-nombre: Peluche Conejo Respiradora Convertible Importado
+nombre: Peluche Conejo Respirador Convertible Importado
 imagen: /img/productos/fruta fresa respira 28 cm.jpg
 galeria:
   - /img/productos/fruta fresa respira 28 cm (2).jpg

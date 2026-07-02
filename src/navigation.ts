@@ -11,7 +11,7 @@ export const headerData = {
     { text: 'Novedades', href: getPermalink('/#novedades') },
     { text: 'Contacto', href: getPermalink('/#contacto') },
   ],
-  actions: [{ text: 'Pedir por WhatsApp', href: waLink('Hola ABC Tendencia, quiero hacer un pedido'), target: '_blank' }],
+  actions: [],
 };
 
 export const footerData = {

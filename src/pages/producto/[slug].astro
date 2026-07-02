@@ -33,9 +33,10 @@ const relacionados = (await getCollection('productos', (p) => p.data.activo && p
   .sort((a, b) => (a.data.categoria === d.categoria ? -1 : 1) - (b.data.categoria === d.categoria ? -1 : 1))
   .slice(0, 4);
 
+const tituloSeo = `${d.nombre}${d.tamano ? ' ' + d.tamano : ''}`;
 const metadata = {
-  title: `${d.nombre} — ${d.categoria} en Perú`,
-  description: `${d.nombre} a S/ ${d.precio}. Peluche ${d.destacado ? 'viral ' : ''}en tendencia con envíos a todo el Perú. Pide fácil por WhatsApp.`,
+  title: `${tituloSeo} — Envíos a todo el Perú`,
+  description: `${tituloSeo} a S/ ${d.precio}. Peluche ${d.destacado ? 'viral ' : ''}en tendencia con envíos a todo el Perú. Pide fácil por WhatsApp.`,
   ignoreTitleTemplate: false,
   openGraph: { images: d.imagen ? [{ url: d.imagen }] : [] },
 };
