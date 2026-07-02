@@ -8,7 +8,7 @@ tamano: 22 cm
 material: hipoalergenico
 color: naranja
 marca: importado
-stock: 5
+stock: 3
 destacado: true
 activo: true
 orden: 0
