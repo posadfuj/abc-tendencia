@@ -1,6 +1,6 @@
 site:
   name: ABC Tendencia
-  site: 'https://abctendencia.netlify.app'
+  site: 'https://abctendencia.com'
   base: '/'
   trailingSlash: false
 
