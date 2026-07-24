@@ -42,6 +42,6 @@ export const footerData = {
     { ariaLabel: 'WhatsApp', icon: 'tabler:brand-whatsapp', href: waLink('Hola ABC Tendencia 🐼') },
   ],
   footNote: `
-    <span class="opacity-80">© 2026 ABC Tendencia · Peluches y novedades en Huánuco, Perú · Delivery en Huánuco y envíos a todo el Perú 🇵🇪</span>
+    <span class="opacity-80">© 2026 ABC Tendencia · 📍 Ubicados en Huánuco, Perú · Delivery en Huánuco y envíos a todo el Perú 🇵🇪</span>
   `,
 };
