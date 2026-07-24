@@ -19,4 +19,4 @@ El **Peluche Snopy Girasol / Hoja** es un modelo tierno, suave y muy llamativo, 
 
 Su textura afelpada, carita dulce y estilo delicado lo hacen perfecto para decorar habitaciones, escritorios, camas o vitrinas. Es una opción bonita para quienes aman los peluches tiernos, coleccionables y con diseños diferentes.
 
-En **ABC Tendencia** encuentras peluches suaves, originales y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches suaves, originales y en tendencia en Huánuco, con envíos a todo el Perú.

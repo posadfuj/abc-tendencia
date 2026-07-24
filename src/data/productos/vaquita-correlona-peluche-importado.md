@@ -20,4 +20,4 @@ La **Vaquita Correlona** es un peluche adorable con un diseño tierno y divertid
 
 Su diseño, sus ojitos brillantes y su pelaje esponjoso hacen que se vea súper abrazable y perfecto para quienes buscan peluches tiernos, originales y diferentes. Es ideal para decorar habitaciones, escritorios, camas o vitrinas, además de ser una excelente opción para sorprender con un detalle especial.
 
-En **ABC Tendencia** encuentras peluches suaves, bonitos y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches suaves, bonitos y en tendencia en Huánuco, con envíos a todo el Perú.

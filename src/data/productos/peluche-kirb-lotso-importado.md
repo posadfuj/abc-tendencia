@@ -17,4 +17,4 @@ El **Peluche Kirby con Disfraz de Osito** es un modelo adorable y muy llamativo,
 
 Está elaborado con textura afelpada y detalles bordados que resaltan su expresión tierna, sus ojos brillantes y su acabado de alta calidad visual. Es una excelente opción para decorar habitaciones, escritorios, vitrinas o para completar una colección de peluches en tendencia.
 
-En **ABC Tendencia** encuentras peluches bonitos, originales y virales en Abancay.
+En **ABC Tendencia** encuentras peluches bonitos, originales y virales en Huánuco, con envíos a todo el Perú.

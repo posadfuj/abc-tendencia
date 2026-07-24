@@ -19,4 +19,4 @@ El **Peluche Conejo Convertible** es un modelo adorable, suave y muy llamativo, 
 
 Cuenta con textura afelpada, carita bordada, detalles rosados y un acabado esponjoso ideal para abrazar, decorar habitaciones, escritorios, camas o vitrinas. Su presentación tipo frutita lo hace más especial y original, perfecto para quienes aman los peluches tiernos y coleccionables.
 
-En **ABC Tendencia** encuentras peluches bonitos, suaves y originales en Abancay.
+En **ABC Tendencia** encuentras peluches bonitos, suaves y originales en Huánuco, con envíos a todo el Perú.

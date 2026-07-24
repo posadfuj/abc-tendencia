@@ -15,4 +15,4 @@ La **Grabadora de Voz para Peluche** es un accesorio ideal para personalizar pel
 
 Es perfecta para regalos de cumpleaños, aniversarios, sorpresas románticas o detalles personalizados. Su diseño compacto permite colocarlo dentro del peluche y activar el sonido mediante un botón, haciendo que el regalo tenga un toque especial y memorable.
 
-En **ABC Tendencia** encuentras accesorios y peluches personalizados para crear detalles únicos en Abancay.
+En **ABC Tendencia** encuentras accesorios y peluches personalizados para crear detalles únicos en Huánuco, con envíos a todo el Perú.

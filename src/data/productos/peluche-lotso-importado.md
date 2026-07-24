@@ -17,4 +17,4 @@ El **Peluche Lotso Rosado Echado** es un modelo adorable y muy suave, ideal para
 
 Su diseño en posición echada le da un estilo relajado y decorativo, perfecto para colocarlo sobre la cama, sillón, escritorio o vitrina. Además, sus detalles en el rostro, orejitas y patitas le dan un acabado bonito y llamativo para quienes aman los peluches originales y en tendencia.
 
-En **ABC Tendencia** encuentras peluches suaves, bonitos y virales en Abancay.
+En **ABC Tendencia** encuentras peluches suaves, bonitos y virales en Huánuco, con envíos a todo el Perú.

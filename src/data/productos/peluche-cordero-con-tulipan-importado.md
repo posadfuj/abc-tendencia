@@ -17,4 +17,4 @@ El **Peluche Corderito con Tulipán** es un modelo tierno y encantador, ideal pa
 
 Este peluche sostiene un tulipán de color rosado con tallo verde, detalle que lo hace más llamativo y especial. Su diseño transmite ternura, cariño y delicadeza, convirtiéndolo en una excelente opción para decorar habitaciones, camas, escritorios o vitrinas.
 
-En **ABC Tendencia** encuentras peluches originales, suaves y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches originales, suaves y en tendencia en Huánuco, con envíos a todo el Perú.

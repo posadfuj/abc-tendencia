@@ -18,4 +18,4 @@ El **Peluche Ghostface** es un modelo original, divertido y muy llamativo para q
 
 Está disponible en **color rosado** y **color negro**, dos versiones perfectas para decorar habitaciones, escritorios, camas o vitrinas. Su textura afelpada y diseño coleccionable lo convierten en una opción ideal para quienes aman los peluches originales, virales y con personalidad.
 
-En **ABC Tendencia** encuentras peluches únicos, suaves y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches únicos, suaves y en tendencia en Huánuco, con envíos a todo el Perú.

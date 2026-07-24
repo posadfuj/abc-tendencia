@@ -17,4 +17,4 @@ El **Peluche Lotso Rosado con Flor** es un modelo adorable, suave y muy llamativ
 
 Cuenta con textura afelpada, color rosado intenso y detalles bordados en el rostro. Además, lleva un pequeño adorno de flor y fresita en la cabeza, lo que le da un toque más dulce, bonito y especial. Es una excelente opción para decorar, coleccionar o sorprender con un peluche diferente.
 
-En **ABC Tendencia** encuentras peluches suaves, bonitos y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches suaves, bonitos y en tendencia en Huánuco, con envíos a todo el Perú.

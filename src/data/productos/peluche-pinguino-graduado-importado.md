@@ -19,4 +19,4 @@ El **Peluche Pingüino Graduado** es un modelo adorable y significativo, ideal p
 
 Cuenta con textura suave y afelpada, ojitos tiernos y un acabado esponjoso que lo hace muy llamativo. Está disponible en **color negro** y **color gris**, dos versiones bonitas para elegir según el gusto de cada persona.
 
-En **ABC Tendencia** encuentras peluches especiales, tiernos y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches especiales, tiernos y en tendencia en Huánuco, con envíos a todo el Perú.

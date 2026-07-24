@@ -19,5 +19,5 @@ El **Peluche Conejito Respira** es un peluche adorable y relajante, diseñado pa
 
 Cuenta con un efecto de respiración suave y una luz cálida en el pecho, creando una experiencia visual tierna y calmante. Es ideal para quienes buscan un peluche diferente, bonito y especial para regalar o usar como compañía en la habitación.
 
-En **ABC Tendencia** encuentras peluches originales, tiernos y en tendencia en Abancay.
+En **ABC Tendencia** encuentras peluches originales, tiernos y en tendencia en Huánuco, con envíos a todo el Perú.
 
