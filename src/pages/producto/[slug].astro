@@ -24,8 +24,8 @@ const desc = descuento(d.precio, d.precioAntes);
 const disponible = d.stock > 0;
 const dispTxt =
   d.stock <= 3
-    ? `✓ Disponible · ¡Solo quedan ${d.stock}! · 🚚 Envíos a todo el Perú`
-    : '✓ Disponible · 🚚 Envíos a todo el Perú';
+    ? `✓ Disponible · ¡Solo quedan ${d.stock}! · 🚚 Delivery en Huánuco y envíos a todo el Perú`
+    : '✓ Disponible · 🚚 Delivery en Huánuco y envíos a todo el Perú';
 const msg = `Hola ABC Tendencia 🐼, quiero pedir "${d.nombre}" (S/ ${d.precio}). ¿Está disponible?`;
 const url = new URL(Astro.url.pathname, Astro.site).href;
 
@@ -35,8 +35,8 @@ const relacionados = (await getCollection('productos', (p) => p.data.activo && p
 
 const tituloSeo = `${d.nombre}${d.tamano ? ' ' + d.tamano : ''}`;
 const metadata = {
-  title: `${tituloSeo} — Envíos a todo el Perú`,
-  description: `${tituloSeo} a S/ ${d.precio}. Peluche ${d.destacado ? 'viral ' : ''}en tendencia con envíos a todo el Perú. Pide fácil por WhatsApp.`,
+  title: `${tituloSeo} en Huánuco — Delivery y envíos a todo el Perú`,
+  description: `${tituloSeo} a S/ ${d.precio}. Peluche ${d.destacado ? 'viral ' : ''}en tendencia en Huánuco, Perú. Delivery en Huánuco y envíos a todo el Perú. Pide fácil por WhatsApp.`,
   ignoreTitleTemplate: false,
   openGraph: { images: d.imagen ? [{ url: d.imagen }] : [] },
 };
@@ -46,7 +46,7 @@ const jsonLdProduct = {
   '@type': 'Product',
   name: d.nombre,
   image: d.imagen ? [d.imagen] : [],
-  description: `${d.nombre} — ${SITE.name}. Peluche en tendencia con envíos a todo el Perú.`,
+  description: `${d.nombre} — ${SITE.name}. Peluche en tendencia en Huánuco, Perú. Delivery en Huánuco y envíos a todo el Perú.`,
   category: d.categoria,
   brand: { '@type': 'Brand', name: SITE.name },
   offers: {
@@ -55,8 +55,20 @@ const jsonLdProduct = {
     priceCurrency: 'PEN',
     availability: disponible ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
     url,
-    seller: { '@type': 'Organization', name: SITE.name },
-    areaServed: { '@type': 'Country', name: 'Perú' },
+    seller: {
+      '@type': 'Organization',
+      name: SITE.name,
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Huánuco',
+        addressRegion: 'Huánuco',
+        addressCountry: 'PE',
+      },
+    },
+    areaServed: [
+      { '@type': 'City', name: 'Huánuco' },
+      { '@type': 'Country', name: 'Perú' },
+    ],
   },
 };
 const jsonLdBread = {

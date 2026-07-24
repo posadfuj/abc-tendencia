@@ -5,7 +5,7 @@ import { getCollection } from 'astro:content';
 import { waLink, descuento } from '~/data/tienda';
 
 const metadata = {
-  title: 'ABC Tendencia — Peluches y novedades virales · Envíos a todo el Perú',
+  title: 'ABC Tendencia — Peluches y novedades virales en Huánuco · Delivery Huánuco y envíos a todo el Perú',
   ignoreTitleTemplate: true,
 };
 
@@ -22,7 +22,8 @@ const pasos = [
 const pagos = ['💜 Yape', '💙 Plin', '🏦 Transferencia', '📦 Contra entrega', '🚚 Olva Courier', '🚚 Shalom'];
 
 const faqs = [
-  { q: '¿Hacen envíos a todo el Perú?', a: 'Sí, enviamos a todo el país por agencia (Olva, Shalom y otras). En Abancay también hacemos delivery.' },
+  { q: '¿Hacen envíos a todo el Perú?', a: 'Sí, enviamos a todo el país por agencia (Olva, Shalom y otras). En Huánuco también hacemos delivery.' },
+  { q: '¿Dónde están ubicados?', a: 'Estamos en Huánuco, Perú. Hacemos delivery dentro de Huánuco y enviamos a todo el país por agencia.' },
   { q: '¿Cómo hago mi pedido?', a: 'Muy fácil: agrega tus peluches al carrito y toca "Enviar pedido por WhatsApp". Te atendemos al instante.' },
   { q: '¿Qué formas de pago aceptan?', a: 'Aceptamos Yape, Plin, transferencia bancaria y, según la zona, pago contra entrega.' },
   { q: '¿Los peluches son de buena calidad?', a: '¡Claro! Seleccionamos peluches suaves y de buena calidad para que tu regalo sea perfecto.' },
@@ -32,9 +33,18 @@ const faqs = [
 const site = Astro.site?.href ?? 'https://abctendencia.netlify.app/';
 const jsonLdStore = {
   '@context': 'https://schema.org', '@type': 'Store', name: 'ABC Tendencia',
-  description: 'Tienda de peluches y productos virales en tendencia con envíos a todo el Perú.',
+  description: 'Tienda de peluches y productos virales en tendencia en Huánuco, Perú. Delivery en Huánuco y envíos a todo el Perú.',
   image: new URL('/logo.png', site).href, url: site, telephone: '+51991505772',
-  areaServed: { '@type': 'Country', name: 'Perú' },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: 'Huánuco',
+    addressRegion: 'Huánuco',
+    addressCountry: 'PE',
+  },
+  areaServed: [
+    { '@type': 'City', name: 'Huánuco' },
+    { '@type': 'Country', name: 'Perú' },
+  ],
   sameAs: ['https://www.instagram.com/abc.tendencia', 'https://www.facebook.com/share/1cAL7LMnkk/', 'https://www.tiktok.com/@abc.tendencia'],
 };
 const jsonLdFaq = {
@@ -52,13 +62,13 @@ const jsonLdFaq = {
       <!-- Texto -->
       <div class="text-center md:text-left">
         <span class="inline-flex items-center gap-2 rounded-full bg-white/15 px-4 py-1.5 text-sm font-semibold ring-1 ring-white/25 backdrop-blur">
-          🔥 Lo más viral del Perú
+          🔥 Lo más viral en Huánuco
         </span>
         <h1 class="mt-4 text-3xl sm:text-5xl md:text-6xl font-extrabold leading-[1.08] tracking-tight">
           Peluches y novedades <span class="text-[#FFD84D]">que enamoran</span>
         </h1>
         <p class="mt-3 text-base md:text-xl text-white/90 max-w-md mx-auto md:mx-0">
-          Lo más viral de TikTok, directo a tu puerta. Envíos a todo el Perú 🇵🇪
+          Lo más viral de TikTok, directo a tu puerta. Delivery en Huánuco y envíos a todo el Perú 🇵🇪
         </p>
         <!-- Botón + confianza: solo en desktop van aquí -->
         <div class="hidden md:block">
@@ -86,7 +96,7 @@ const jsonLdFaq = {
             class="w-[50%] rotate-[6deg] -ml-[22%] mb-6 relative z-0" style="filter:drop-shadow(0 16px 20px rgba(0,0,0,.35))" />
         </div>
         <div class="mt-3 hidden md:flex justify-center">
-          <span class="inline-flex items-center gap-2 rounded-full bg-white text-gray-800 px-4 py-2 text-sm font-bold shadow-xl">🚚 Envíos a todo el Perú</span>
+          <span class="inline-flex items-center gap-2 rounded-full bg-white text-gray-800 px-4 py-2 text-sm font-bold shadow-xl">🚚 Delivery en Huánuco · Envíos a todo el Perú</span>
         </div>
       </div>
       <!-- Botón + confianza: solo en móvil, después de los peluches -->
@@ -109,6 +119,8 @@ const jsonLdFaq = {
   <!-- Franja de confianza -->
   <section class="bg-white border-b border-gray-100">
     <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap justify-center gap-x-6 gap-y-1 text-sm font-semibold text-gray-600">
+      <span>✅ Delivery en Huánuco</span>
+      <span class="text-gray-300">|</span>
       <span>✅ Envíos a todo el Perú</span>
       <span class="text-gray-300">|</span>
       <span>✅ Pago seguro</span>

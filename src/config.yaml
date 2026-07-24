@@ -9,9 +9,9 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: 'ABC Tendencia — Peluches y novedades virales en Perú'
-    template: '%s — ABC Tendencia'
-  description: 'Tienda de peluches y productos virales en tendencia con envíos a todo el Perú. El regalo perfecto para sorprender. Pide fácil por WhatsApp.'
+    default: 'ABC Tendencia — Peluches y novedades virales en Huánuco, Perú'
+    template: '%s — ABC Tendencia Huánuco'
+  description: 'Tienda de peluches y productos virales en tendencia en Huánuco, Perú. Delivery en Huánuco y envíos a todo el Perú. El regalo perfecto para sorprender. Pide fácil por WhatsApp.'
   robots:
     index: true
     follow: true
