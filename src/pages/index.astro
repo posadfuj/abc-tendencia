@@ -56,8 +56,8 @@ const jsonLdFaq = {
 <Layout metadata={metadata}>
   <!-- HERO -->
   <section class="relative overflow-hidden text-white" style="background:linear-gradient(135deg,#38B6E0 0%,#6E56F0 55%,#7C5CFC 100%)">
-    <div class="blob-float pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
-    <div class="blob-float pointer-events-none absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-white/10 blur-3xl" style="animation-delay:-4s"></div>
+    <div class="blob-float pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/20 blur-3xl"></div>
+    <div class="blob-float pointer-events-none absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-white/20 blur-3xl" style="animation-delay:-3s"></div>
     <div class="relative max-w-7xl mx-auto px-4 pt-10 pb-16 md:pt-20 md:pb-32 grid md:grid-cols-2 gap-5 md:gap-8 items-center">
       <!-- Texto -->
       <div class="text-center md:text-left">
@@ -267,11 +267,11 @@ const jsonLdFaq = {
   }
 
   @keyframes blob-float {
-    0%, 100% { translate: 0 0; }
-    50% { translate: -20px 20px; }
+    0%, 100% { translate: 0 0; scale: 1; }
+    50% { translate: -50px 40px; scale: 1.15; }
   }
   .blob-float {
-    animation: blob-float 9s ease-in-out infinite;
+    animation: blob-float 6s ease-in-out infinite;
   }
 
   @keyframes badge-pulse {
