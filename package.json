@@ -19,7 +19,9 @@
     "check:prettier": "prettier --check .",
     "fix": "npm run fix:eslint && npm run fix:prettier",
     "fix:eslint": "eslint --fix .",
-    "fix:prettier": "prettier -w ."
+    "fix:prettier": "prettier -w .",
+    "pages:dev": "wrangler pages dev -- npm run dev",
+    "pages:preview": "npm run build && wrangler pages dev ./dist"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
@@ -37,6 +39,7 @@
     "@astrojs/check": "^0.9.9",
     "@astrojs/mdx": "^6.0.1",
     "@astrojs/partytown": "^2.1.7",
+    "@cloudflare/workers-types": "^5.20260726.1",
     "@eslint/js": "^10.0.1",
     "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/tabler": "^1.2.35",
@@ -61,7 +64,8 @@
     "tailwind-merge": "^3.6.0",
     "tailwindcss": "^4.3.0",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.60.0"
+    "typescript-eslint": "^8.60.0",
+    "wrangler": "^4.114.0"
   },
   "overrides": {
     "yaml": ">=2.8.3",

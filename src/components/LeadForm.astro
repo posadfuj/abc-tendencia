@@ -1,0 +1,69 @@
+---
+import { waLink } from '~/data/tienda';
+---
+
+<div class="mt-8 max-w-md mx-auto">
+  <p class="text-gray-600 mb-4">o déjanos tus datos y te escribimos nosotros 👇</p>
+
+  <form id="lead-form" class="flex flex-col gap-3 bg-white/70 rounded-2xl p-5 shadow-sm text-left">
+    <input type="text" name="sitio_web" tabindex="-1" autocomplete="off" class="hidden" />
+
+    <input id="lead-nombre" name="nombre" type="text" required maxlength="120" placeholder="Tu nombre"
+      class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+      style="--tw-ring-color:#7C5CFC" />
+
+    <input id="lead-whatsapp" name="whatsapp" type="tel" required maxlength="20" placeholder="Tu WhatsApp"
+      class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+      style="--tw-ring-color:#7C5CFC" />
+
+    <textarea id="lead-mensaje" name="mensaje" rows="3" maxlength="500" placeholder="¿Qué producto buscas? (opcional)"
+      class="w-full py-2.5 px-4 rounded-2xl border border-gray-200 text-sm focus:outline-none focus:ring-2"
+      style="--tw-ring-color:#7C5CFC"></textarea>
+
+    <button id="lead-submit" type="submit"
+      class="w-full bg-[#7C5CFC] hover:brightness-105 text-white font-bold py-3 rounded-full transition">
+      Enviar mensaje
+    </button>
+
+    <p id="lead-feedback" class="hidden text-sm text-center"></p>
+  </form>
+</div>
+
+<script is:inline define:vars={{ waMsg: waLink('Hola ABC Tendencia 🐼, quiero hacer una consulta') }}>
+  (function () {
+    const form = document.getElementById('lead-form');
+    const submit = document.getElementById('lead-submit');
+    const feedback = document.getElementById('lead-feedback');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const nombre = document.getElementById('lead-nombre').value.trim();
+      const whatsapp = document.getElementById('lead-whatsapp').value.trim();
+      const mensaje = document.getElementById('lead-mensaje').value.trim();
+      if (!nombre || !whatsapp) return;
+
+      submit.disabled = true;
+      submit.textContent = 'Enviando...';
+
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 6000);
+        const res = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ nombre, whatsapp, mensaje, sitio_web: form.sitio_web.value }),
+          signal: controller.signal,
+        });
+        clearTimeout(timeout);
+        if (!res.ok) throw new Error('fallo');
+
+        form.innerHTML = '<p class="text-center font-semibold py-2">¡Gracias! Te contactamos pronto por WhatsApp 🐼</p>';
+      } catch (_) {
+        submit.disabled = false;
+        submit.textContent = 'Enviar mensaje';
+        feedback.classList.remove('hidden');
+        feedback.innerHTML = `Hubo un problema. Escríbenos directo por <a href="${waMsg}" target="_blank" rel="noopener" class="font-bold underline">WhatsApp</a>`;
+      }
+    });
+  })();
+</script>

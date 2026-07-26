@@ -43,11 +43,48 @@ import { WHATSAPP, waLink } from '~/data/tienda';
     <button id="cart-close" class="text-2xl text-gray-400 hover:text-gray-700" aria-label="Cerrar">✕</button>
   </div>
   <div id="cart-items" class="flex-1 overflow-y-auto p-5 space-y-4"></div>
-  <div class="p-5 border-t">
+  <div class="p-5 border-t max-h-[55vh] overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
       <span class="text-gray-600">Total:</span>
       <span id="cart-total" class="text-2xl font-extrabold" style="color:#7C5CFC">S/ 0</span>
     </div>
+
+    <p class="text-xs font-bold text-gray-500 mb-2 uppercase tracking-wide">Tus datos para el envío</p>
+    <div class="flex flex-col gap-2 mb-4">
+      <input id="cart-nombre" type="text" placeholder="Tu nombre" maxlength="120" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+        style="--tw-ring-color:#7C5CFC" />
+      <input id="cart-whatsapp" type="tel" placeholder="Tu WhatsApp" maxlength="20" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+        style="--tw-ring-color:#7C5CFC" />
+      <input id="cart-direccion" type="text" placeholder="Dirección (calle y número)" maxlength="200" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+        style="--tw-ring-color:#7C5CFC" />
+      <input id="cart-distrito" type="text" placeholder="Distrito / Ciudad" maxlength="100" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+        style="--tw-ring-color:#7C5CFC" />
+      <input id="cart-referencia" type="text" placeholder="Referencia (opcional): casa, color, cerca de..." maxlength="200"
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2"
+        style="--tw-ring-color:#7C5CFC" />
+      <select id="cart-envio" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 bg-white"
+        style="--tw-ring-color:#7C5CFC">
+        <option value="" disabled selected>¿Cómo prefieres el envío?</option>
+        <option value="Delivery Huánuco">🛵 Delivery en Huánuco</option>
+        <option value="Envío nacional - Olva Courier">🚚 Envío nacional - Olva Courier</option>
+        <option value="Envío nacional - Shalom">🚚 Envío nacional - Shalom</option>
+      </select>
+      <select id="cart-pago" required
+        class="w-full py-2.5 px-4 rounded-full border border-gray-200 text-sm focus:outline-none focus:ring-2 bg-white"
+        style="--tw-ring-color:#7C5CFC">
+        <option value="" disabled selected>¿Cómo prefieres pagar?</option>
+        <option value="Yape">💜 Yape</option>
+        <option value="Plin">💙 Plin</option>
+        <option value="Transferencia">🏦 Transferencia</option>
+        <option value="Contra entrega" data-solo-huanuco="1">📦 Contra entrega (solo Huánuco)</option>
+      </select>
+    </div>
+
     <button id="cart-checkout" class="w-full bg-[#25D366] hover:brightness-105 text-white font-bold py-3.5 rounded-full transition">💬 Enviar pedido por WhatsApp</button>
   </div>
 </aside>
@@ -112,13 +149,52 @@ import { WHATSAPP, waLink } from '~/data/tienda';
     document.getElementById('cart-close').addEventListener('click', cerrar);
     overlay.addEventListener('click', cerrar);
 
+    // "Contra entrega" solo aplica para delivery en Huánuco.
+    const envioSel = document.getElementById('cart-envio');
+    const pagoSel = document.getElementById('cart-pago');
+    envioSel.addEventListener('change', () => {
+      const esHuanuco = envioSel.value === 'Delivery Huánuco';
+      const opcionContraentrega = pagoSel.querySelector('[data-solo-huanuco]');
+      opcionContraentrega.hidden = !esHuanuco;
+      if (!esHuanuco && pagoSel.value === 'Contra entrega') pagoSel.value = '';
+    });
+
     document.getElementById('cart-checkout').addEventListener('click', () => {
       if (!cart.length) { alert('Tu carrito está vacío 🧸'); return; }
+
+      const nombre = document.getElementById('cart-nombre').value.trim();
+      const whatsapp = document.getElementById('cart-whatsapp').value.trim();
+      const direccion = document.getElementById('cart-direccion').value.trim();
+      const distrito = document.getElementById('cart-distrito').value.trim();
+      const referencia = document.getElementById('cart-referencia').value.trim();
+      const envio = envioSel.value;
+      const pago = pagoSel.value;
+
+      if (!nombre || !whatsapp || !direccion || !distrito || !envio || !pago) {
+        alert('Completa tus datos de nombre, WhatsApp, dirección, distrito, envío y pago para continuar 📋');
+        return;
+      }
+
       let msg = '¡Hola ABC Tendencia! 🐼 Quiero pedir:%0A%0A';
       let total = 0;
       cart.forEach((i) => { msg += `• ${i.qty}x ${i.nombre} — ${money(i.precio * i.qty)}%0A`; total += i.precio * i.qty; });
-      msg += `%0A*Total: ${money(total)}*%0A%0A¿Me confirmas disponibilidad y envío? 🚚`;
+      msg += `%0A*Total: ${money(total)}*%0A%0A`;
+      msg += `*Nombre:* ${encodeURIComponent(nombre)}%0A`;
+      msg += `*Dirección:* ${encodeURIComponent(direccion)}, ${encodeURIComponent(distrito)}%0A`;
+      if (referencia) msg += `*Referencia:* ${encodeURIComponent(referencia)}%0A`;
+      msg += `*Envío:* ${encodeURIComponent(envio)}%0A`;
+      msg += `*Pago:* ${encodeURIComponent(pago)}%0A%0A¿Me confirmas disponibilidad? 🚚`;
       window.open(`https://wa.me/${WA}?text=${msg}`, '_blank');
+
+      // Registro en el CRM: no debe bloquear ni romper el checkout si falla.
+      try {
+        fetch('/api/pedido', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cliente: nombre, whatsapp, direccion, distrito, referencia, envio, pago, items: cart, total }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch (_) { /* no romper el checkout */ }
     });
 
     render();

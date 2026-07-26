@@ -1,6 +1,7 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import Carrito from '~/components/Carrito.astro';
+import LeadForm from '~/components/LeadForm.astro';
 import { getCollection } from 'astro:content';
 import { waLink, descuento } from '~/data/tienda';
 
@@ -243,6 +244,7 @@ const jsonLdFaq = {
           💬 Escríbenos por WhatsApp
         </a>
       </div>
+      <LeadForm />
     </div>
   </section>
 
