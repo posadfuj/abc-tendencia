@@ -56,8 +56,8 @@ const jsonLdFaq = {
 <Layout metadata={metadata}>
   <!-- HERO -->
   <section class="relative overflow-hidden text-white" style="background:linear-gradient(135deg,#38B6E0 0%,#6E56F0 55%,#7C5CFC 100%)">
-    <div class="pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
-    <div class="pointer-events-none absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+    <div class="blob-float pointer-events-none absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/10 blur-3xl"></div>
+    <div class="blob-float pointer-events-none absolute -bottom-32 -left-24 w-96 h-96 rounded-full bg-white/10 blur-3xl" style="animation-delay:-4s"></div>
     <div class="relative max-w-7xl mx-auto px-4 pt-10 pb-16 md:pt-20 md:pb-32 grid md:grid-cols-2 gap-5 md:gap-8 items-center">
       <!-- Texto -->
       <div class="text-center md:text-left">
@@ -151,14 +151,14 @@ const jsonLdFaq = {
       </div>
 
       <div id="grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-        {productos.map((p) => {
+        {productos.map((p, i) => {
           const d = descuento(p.data.precio, p.data.precioAntes);
           return (
-            <article class="prod bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col transition hover:-translate-y-1.5 hover:shadow-2xl"
-              data-cat={p.data.categoria} data-nombre={p.data.nombre.toLowerCase()}>
+            <article class="prod reveal bg-white rounded-3xl shadow-lg overflow-hidden flex flex-col transition hover:-translate-y-1.5 hover:shadow-2xl"
+              data-cat={p.data.categoria} data-nombre={p.data.nombre.toLowerCase()} style={`transition-delay:${(i % 4) * 90}ms`}>
               <div class="relative aspect-square overflow-hidden bg-[#f4f5fa]">
-                {p.data.destacado && <span class="absolute top-3 left-3 z-10 text-white text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FF4D8D,#FF6B57)">🔥 Viral</span>}
-                {d && <span class="absolute top-3 right-3 z-10 text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{d}%</span>}
+                {p.data.destacado && <span class="badge-pulse absolute top-3 left-3 z-10 text-white text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FF4D8D,#FF6B57)">🔥 Viral</span>}
+                {d && <span class="badge-pulse absolute top-3 right-3 z-10 text-xs font-bold px-3 py-1 rounded-full" style="background:linear-gradient(135deg,#FFC02E,#FF8A3D);color:#5a3d00">-{d}%</span>}
                 <a href={`/producto/${p.id}`}>
                   <img src={p.data.imagen} alt={p.data.nombre} loading="lazy" class="w-full h-full object-cover transition duration-300 hover:scale-105" />
                 </a>
@@ -265,6 +265,37 @@ const jsonLdFaq = {
   @media (prefers-reduced-motion: reduce) {
     .peluche-float { animation: none; }
   }
+
+  @keyframes blob-float {
+    0%, 100% { translate: 0 0; }
+    50% { translate: -20px 20px; }
+  }
+  .blob-float {
+    animation: blob-float 9s ease-in-out infinite;
+  }
+
+  @keyframes badge-pulse {
+    0%, 100% { scale: 1; }
+    50% { scale: 1.08; }
+  }
+  .badge-pulse {
+    animation: badge-pulse 1.8s ease-in-out infinite;
+  }
+
+  .reveal {
+    opacity: 0;
+    translate: 0 28px;
+    transition-duration: .7s;
+  }
+  .reveal.in-view {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob-float, .badge-pulse { animation: none; }
+    .reveal { opacity: 1; translate: 0 0; transition: none; }
+  }
 </style>
 
 <script is:inline>
@@ -286,6 +317,17 @@ const jsonLdFaq = {
     });
     sinRes.classList.toggle('hidden', visibles > 0);
   }
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      el.classList.add('in-view');
+      el.addEventListener('transitionend', () => el.classList.remove('reveal'), { once: true });
+      io.unobserve(el);
+    });
+  }, { threshold: 0.15 });
+  prods.forEach((p) => io.observe(p));
+
   chips.forEach((chip) => {
     chip.addEventListener('click', () => {
       chips.forEach((c) => { c.classList.remove('chip-activo'); c.classList.add('bg-white', 'border-gray-200', 'text-gray-700'); });
